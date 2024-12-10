@@ -3,4 +3,7 @@ builds:
   default:
     entry: elec/src/femtofox-mppt.ato:FemtofoxMppt
 dependencies:
-- generics
+- name: generics
+  version_spec: '@2b1dae37e5d4978345d7fa372efb5f512e4cd187'
+  link_broken: true
+  path: elec/src/generics
