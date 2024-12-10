@@ -1,0 +1,32 @@
+component BQ25895RTWR:
+    # component BQ25895RTWR
+    footprint = "QFN-24_L4.0-W4.0-P0.50-TL-EP2.7"
+    lcsc_id = "C80200"
+    mpn = "C80200"
+    # pins
+    signal VBUS ~ pin 1
+    signal D_plus ~ pin 2
+    signal D ~ pin 3
+    signal STAT ~ pin 4
+    signal SCL ~ pin 5
+    signal SDA ~ pin 6
+    signal INT ~ pin 7
+    signal OTG ~ pin 8
+    signal CE ~ pin 9
+    signal ILIM ~ pin 10
+    signal TS ~ pin 11
+    signal QON ~ pin 12
+    signal BAT ~ pin 13
+    BAT ~ pin 14
+    signal SYS ~ pin 15
+    SYS ~ pin 16
+    signal PGND ~ pin 17
+    PGND ~ pin 18
+    signal SW ~ pin 19
+    SW ~ pin 20
+    signal BTST ~ pin 21
+    signal REGN ~ pin 22
+    signal PMID ~ pin 23
+    signal DSEL ~ pin 24
+    signal PAD ~ pin 25
+
