@@ -8,7 +8,7 @@ from "IHLP2020BZER1R0M11.ato" import IHLP2020BZER1R0M11
 from "qwiic-connectors/elec/src/qwiic-connectors.ato" import QwiicConnector
 from "XT30_lparen_2_plus_2_rparen_PW_minus_M_period_G_period_B.ato" import XT30_lparen_2_plus_2_rparen_PW_minus_M_period_G_period_B
 from "TYPE_minus_C_minus_31_minus_M_minus_12.ato" import USBC
-from "TS3USB221ARSER.ato" import TS3USB221ARSER
+from "TS3USB221ARSER.ato" import USB_SW
 
 module FemtofoxMppt:
     # Power
@@ -20,7 +20,6 @@ module FemtofoxMppt:
     V5v = new Power
 
     # Interfaces
-    usb_in_usb2 = new USB2
     signal agnd
     signal nettie
     signal pullup
@@ -28,10 +27,12 @@ module FemtofoxMppt:
     # Components
     ic = new BQ25895RTWR
     uc = new ATTINY1617_minus_MFR_C2053207
+    usb_sw = new USB_SW
     i2c = new I2C
     i2c_conn = new QwiicConnector
     bat_conn = new XT30_lparen_2_plus_2_rparen_PW_minus_M_period_G_period_B
     usb_in = new USBC
+    usb_out = new USBC
     C101 = new Capacitor; C101.value = 0.1uF +/- 10%; C101.package = "0201"
     C1 = new Capacitor; C1.value = 1uF +/- 10%; C1.package = "0402"
     C2 = new Capacitor; C2.value = 10uF +/- 10%; C2.package = "0402"
@@ -62,7 +63,7 @@ module FemtofoxMppt:
     # I2C/USB
     i2c_conn.i2c ~ i2c
     ic.SCL ~ i2c.scl; ic.SDA ~ i2c.sda; i2c.sda ~ R15.p1; R15.p2 ~ pullup; i2c.scl ~ R14.p1; R14.p2 ~ pullup; pullup ~ Vsys.vcc
-    usb_in.usb2 ~ usb_in_usb2
+    usb_in.usb2 ~ usb_sw.usb2_in
     power.gnd ~ Vpv.gnd; power.gnd ~ Vbat.gnd; power.gnd ~ Vsys.gnd; power.gnd ~ V5v.gnd
     # BQ25895
     ic.PMID ~ V5v.vcc; C2.power ~ V5v; C10.power ~ V5v; C11.power ~ V5v; C12.power ~ V5v; C13.power ~ V5v

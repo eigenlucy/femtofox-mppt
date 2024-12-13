@@ -1,3 +1,20 @@
+import USB2 from "generics/interfaces.ato"
+import Power from "generics/interfaces.ato"
+
+module USB_SW:
+    ic = new TS3USB221ARSER
+    power = new Power
+    power.vcc ~ ic.VCC; power.gnd ~ ic.GND
+    usb2_in = new USB2
+    usb2_in.dp ~ ic.D_plus
+    usb2_in.dm ~ ic.D_minus
+    usb2_out1 = new USB2
+    usb2_out1.dp ~ ic._1D_plus
+    usb2_out1.dm ~ ic._1D_minus
+    usb2_out2 = new USB2
+    usb2_out2.dp ~ ic._2D_plus
+    usb2_out2.dm ~ ic._2D_minus
+
 component TS3USB221ARSER:
     # component TS3USB221ARSER
     footprint = "UQFN-10_L2.0-W1.5-P0.50-BL"
@@ -13,5 +30,4 @@ component TS3USB221ARSER:
     signal D_minus ~ pin 7
     signal D_plus ~ pin 8
     signal S ~ pin 9
-    signal VCC ~ pin 10
-
+    signal VCC ~ pin 10 
