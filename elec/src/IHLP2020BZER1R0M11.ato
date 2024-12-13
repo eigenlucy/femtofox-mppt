@@ -1,0 +1,9 @@
+component IHLP2020BZER1R0M11:
+    # component IHLP2020BZER1R0M11
+    footprint = "IND-SMD_L5.2-W5.2_IHLP2020CZER2R2M11"
+    lcsc_id = "C844986"
+    mpn = "C844986"
+    # pins
+    signal p2 ~ pin 2
+    signal p1 ~ pin 1
+

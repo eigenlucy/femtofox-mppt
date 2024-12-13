@@ -1,0 +1,13 @@
+component XT30_lparen_2_plus_2_rparen_PW_minus_M_period_G_period_B:
+    # component XT30_lparen_2_plus_2_rparen_PW_minus_M_period_G_period_B
+    footprint = "CONN-TH_4P-XT30PW-M"
+    lcsc_id = "C19268030"
+    mpn = "C19268030"
+    # pins
+    # NTC Terminals
+    signal p4 ~ pin 4
+    signal p3 ~ pin 3
+    # Bat Terminals
+    signal p2 ~ pin 2
+    signal p1 ~ pin 1
+

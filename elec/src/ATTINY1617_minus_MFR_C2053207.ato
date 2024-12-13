@@ -1,0 +1,32 @@
+component ATTINY1617_minus_MFR_C2053207:
+    # component ATTINY1617_minus_MFR_C2053207
+    footprint = "VQFN-24_L4.0-W4.0-P0.50-TL-EP2.5"
+    lcsc_id = "C2053207"
+    mpn = "C2053207"
+    # pins
+    signal PA2 ~ pin 1
+    signal EXTCLK_slash_PA3 ~ pin 2
+    signal GND ~ pin 3
+    signal VDD ~ pin 4
+    signal PA4 ~ pin 5
+    signal PA5 ~ pin 6
+    signal PA6 ~ pin 7
+    signal PA7 ~ pin 8
+    signal PB7 ~ pin 9
+    signal PB6 ~ pin 10
+    signal PB5 ~ pin 11
+    signal PB4 ~ pin 12
+    signal PB3TOSC1 ~ pin 13
+    signal PB2_slash_TOSC2 ~ pin 14
+    signal PB1 ~ pin 15
+    signal PB0 ~ pin 16
+    signal PC0 ~ pin 17
+    signal PC1 ~ pin 18
+    signal PC2 ~ pin 19
+    signal PC3 ~ pin 20
+    signal PC4 ~ pin 21
+    signal PC5 ~ pin 22
+    signal PA0_slash_RESET_hash_slash_UPDI ~ pin 23
+    signal PA1 ~ pin 24
+    signal EP ~ pin 25
+

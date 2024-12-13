@@ -1,0 +1,9 @@
+component SS1P3L_minus_M3_slash_84A:
+    # component SS1P3L_minus_M3_slash_84A
+    footprint = "DO-220AA_L3.4-W2.0-LS3.9-RD"
+    lcsc_id = "C2875475"
+    mpn = "C2875475"
+    # pins
+    signal A ~ pin 1
+    signal K ~ pin 2
+
