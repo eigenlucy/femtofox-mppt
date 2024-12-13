@@ -1,2 +1,62 @@
+from "generics/interfaces.ato" import Power
+from "generics/inductors.ato" import Inductor
+from "generics/capacitors.ato" import Capacitor
+from "generics/resistors.ato" import Resistor
+from "generics/diodes.ato" import Diode
+
 module FemtofoxMppt:
-    signal gnd
+    # Power
+    power = new Power
+    Vpv = new Power
+    Vbat = new Power
+    V3v3 = new Power
+    V5v = new Power
+    signal agnd
+    signal nettie
+
+    # Components
+    ic = new BQ25895RTWR
+    C1 = new Capacitor; C1.value = 1uF +/- 10%; C1.package = "0402"
+    C2 = new Capacitor; C2.value = 10uF +/- 10%; C2.package = "0402"
+    C10 = new Capacitor; C10.value = 22uF +/- 10%; C10.package = "0603"
+    C11 = new Capacitor; C11.value = 10uF +/- 10%; C11.package = "0603"
+    C12 = new Capacitor; C12.value = 10uF +/- 10%; C12.package = "0603"
+
+
+    # Connections
+    power.gnd ~ Vpv.gnd; power.gnd ~ Vbat.gnd; power.gnd ~ V3v3.gnd; power.gnd ~ V5v.gnd
+    power.gnd ~ ic.PGND; power.gnd ~ nettie; nettie ~ agnd
+    ic.PMID ~ V5v.vcc; C2.power ~ V5v; C10.power ~ V5v; C11.power ~ V5v; C12.power ~ V5v
+    ic.VBUS ~ Vpv; C1.power ~ Vpv
+
+component BQ25895RTWR:
+    # component BQ25895RTWR
+    footprint = "QFN-24_L4.0-W4.0-P0.50-TL-EP2.7"
+    lcsc_id = "C80200"
+    mpn = "C80200"
+    # pins
+    signal VBUS ~ pin 1
+    signal D_plus ~ pin 2
+    signal D ~ pin 3
+    signal STAT ~ pin 4
+    signal SCL ~ pin 5
+    signal SDA ~ pin 6
+    signal INT ~ pin 7
+    signal OTG ~ pin 8
+    signal CE ~ pin 9
+    signal ILIM ~ pin 10
+    signal TS ~ pin 11
+    signal QON ~ pin 12
+    signal BAT ~ pin 13
+    BAT ~ pin 14
+    signal SYS ~ pin 15
+    SYS ~ pin 16
+    signal PGND ~ pin 17
+    PGND ~ pin 18
+    signal SW ~ pin 19
+    SW ~ pin 20
+    signal BTST ~ pin 21
+    signal REGN ~ pin 22
+    signal PMID ~ pin 23
+    signal DSEL ~ pin 24
+    signal PAD ~ pin 25
