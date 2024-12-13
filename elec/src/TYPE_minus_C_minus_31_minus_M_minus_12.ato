@@ -1,0 +1,39 @@
+import USB2 from "generics/interfaces.ato"
+import Power from "generics/interfaces.ato"
+
+module USBC:
+    power = new Power
+    usb2 = new USB2
+    conn = new TYPE_minus_C_minus_31_minus_M_minus_12
+    conn.DP1 ~ usb2.dp; conn.DP2 ~ usb2.dp
+    conn.DN1 ~ usb2.dm; conn.DN2 ~ usb2.dm
+    conn.VBUS ~ power.vcc
+    conn.GND ~ power.gnd
+
+component TYPE_minus_C_minus_31_minus_M_minus_12:
+    # component TYPE_minus_C_minus_31_minus_M_minus_12
+    footprint = "USB-C_SMD-TYPE-C-31-M-12"
+    lcsc_id = "C165948"
+    mpn = "C165948"
+    # pins
+    signal GND ~ pin B1
+    signal VBUS ~ pin B4
+    signal CC2 ~ pin B5
+    signal DP2 ~ pin B6
+    signal DN2 ~ pin B7
+    signal SBU2 ~ pin B8
+    VBUS ~ pin B9
+    GND ~ pin B12
+    signal SH ~ pin 0
+    SH ~ pin 0
+    SH ~ pin 0
+    SH ~ pin 0
+    GND ~ pin A1
+    VBUS ~ pin A4
+    signal CC1 ~ pin A5
+    signal DP1 ~ pin A6
+    signal DN1 ~ pin A7
+    signal SBU1 ~ pin A8
+    VBUS ~ pin A9
+    GND ~ pin A12
+

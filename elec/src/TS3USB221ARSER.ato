@@ -1,0 +1,17 @@
+component TS3USB221ARSER:
+    # component TS3USB221ARSER
+    footprint = "UQFN-10_L2.0-W1.5-P0.50-BL"
+    lcsc_id = "C128396"
+    mpn = "C128396"
+    # pins
+    signal _1D_plus ~ pin 1
+    signal _1D_minus ~ pin 2
+    signal _2D_plus ~ pin 3
+    signal _2D_minus ~ pin 4
+    signal GND ~ pin 5
+    signal OE_hash ~ pin 6
+    signal D_minus ~ pin 7
+    signal D_plus ~ pin 8
+    signal S ~ pin 9
+    signal VCC ~ pin 10
+

@@ -7,6 +7,8 @@ from "SS1P3L_minus_M3_slash_84A.ato" import SS1P3L_minus_M3_slash_84A
 from "IHLP2020BZER1R0M11.ato" import IHLP2020BZER1R0M11
 from "qwiic-connectors/elec/src/qwiic-connectors.ato" import QwiicConnector
 from "XT30_lparen_2_plus_2_rparen_PW_minus_M_period_G_period_B.ato" import XT30_lparen_2_plus_2_rparen_PW_minus_M_period_G_period_B
+from "TYPE_minus_C_minus_31_minus_M_minus_12.ato" import USBC
+from "TS3USB221ARSER.ato" import TS3USB221ARSER
 
 module FemtofoxMppt:
     # Power
@@ -16,10 +18,12 @@ module FemtofoxMppt:
     Vsys = new Power
     V3v3 = new Power
     V5v = new Power
+
+    # Interfaces
+    usb_in_usb2 = new USB2
     signal agnd
     signal nettie
     signal pullup
-    signal UPDI
 
     # Components
     ic = new BQ25895RTWR
@@ -27,6 +31,7 @@ module FemtofoxMppt:
     i2c = new I2C
     i2c_conn = new QwiicConnector
     bat_conn = new XT30_lparen_2_plus_2_rparen_PW_minus_M_period_G_period_B
+    usb_in = new USBC
     C101 = new Capacitor; C101.value = 0.1uF +/- 10%; C101.package = "0201"
     C1 = new Capacitor; C1.value = 1uF +/- 10%; C1.package = "0402"
     C2 = new Capacitor; C2.value = 10uF +/- 10%; C2.package = "0402"
@@ -41,40 +46,55 @@ module FemtofoxMppt:
     C13 = new Capacitor; C13.value = 10uF +/- 10%; C13.package = "0603"
     R2 = new Resistor; R2.value = 5.21kohm +/- 5%; R2.package = "0402"
     R3 = new Resistor; R3.value = 29.87kohm +/- 5%; R3.package = "0402"
-    R5 = new Resistor; R5.value = 10kohm +/- 10%; R5.package = "0201"
-    R6 = new Resistor; R6.value = 10kohm +/- 10%; R6.package = "0201"
+    R5 = new Resistor; R5.value = 10kohm +/- 20%; R5.package = "0201"
+    R6 = new Resistor; R6.value = 10kohm +/- 20%; R6.package = "0201"
     R13 = new Resistor; R13.value = 0ohm; R13.package = "0402"
-    R14 = new Resistor; R14.value = 10kohm +/- 10%; R14.package = "0201"
-    R15 = new Resistor; R15.value = 10kohm +/- 10%; R15.package = "0201"
+    R14 = new Resistor; R14.value = 10kohm +/- 20%; R14.package = "0201"
+    R15 = new Resistor; R15.value = 10kohm +/- 20%; R15.package = "0201"
+    R20 = new Resistor; R20.value = 10kohm +/- 20%; R20.package = "0201"
+    R24 = new Resistor; R24.value = 10kohm +/- 20%; R24.package = "0201"
+    R25 = new Resistor; R25.value = 10kohm +/- 20%; R25.package = "0201"
     D2 = new SS1P3L_minus_M3_slash_84A # Schottky Diode
     L1 = new IHLP2020BZER1R0M11
 
     # Connections
+    power.gnd ~ ic.PGND; power.gnd ~ nettie; nettie ~ agnd
+    # I2C/USB
     i2c_conn.i2c ~ i2c
+    ic.SCL ~ i2c.scl; ic.SDA ~ i2c.sda; i2c.sda ~ R15.p1; R15.p2 ~ pullup; i2c.scl ~ R14.p1; R14.p2 ~ pullup; pullup ~ Vsys.vcc
+    usb_in.usb2 ~ usb_in_usb2
     power.gnd ~ Vpv.gnd; power.gnd ~ Vbat.gnd; power.gnd ~ Vsys.gnd; power.gnd ~ V5v.gnd
     # BQ25895
-    power.gnd ~ ic.PGND; power.gnd ~ nettie; nettie ~ agnd
     ic.PMID ~ V5v.vcc; C2.power ~ V5v; C10.power ~ V5v; C11.power ~ V5v; C12.power ~ V5v; C13.power ~ V5v
     ic.VBUS ~ Vpv.vcc; C1.power ~ Vpv
     ic.REGN ~ C3.p1; C3.p2 ~ agnd
+    ic.BAT ~ Vbat.vcc; Vbat ~ C7.power
+    Vbat.vcc ~ bat_conn.p1; Vbat.gnd ~ bat_conn.p2
     ic.BTST ~ R13.p1; R13.p2 ~ C4.p1; C4.p2 ~ ic.SW
     ic.SW ~ L1.p1; L1.p2 ~ ic.SYS; ic.SYS ~ Vsys.vcc
     Vsys ~ C5.power; Vsys ~ C6.power
     ic.SW ~ D2.A; D2.K ~ V5v.vcc
-    ic.BAT ~ Vbat.vcc; Vbat ~ C7.power
-    Vbat.vcc ~ bat_conn.p1; Vbat.gnd ~ bat_conn.p2
-    ic.SCL ~ i2c.scl; ic.SDA ~ i2c.sda; i2c.sda ~ R15.p1; R15.p2 ~ pullup; i2c.scl ~ R14.p1; R14.p2 ~ pullup; pullup ~ Vsys.vcc
+    # OTG pin = boost mode enable, ACTIVE HIGH
     signal OTG
     ic.OTG ~ R6.p1; R6.p2 ~ pullup; ic.OTG ~ OTG
+    # INT fault interrupt, ACTIVE LOW, sends 256uS pulse to report fault
     signal INT
     ic.INT ~ R5.p1; R5.p2 ~ pullup; ic.INT ~ INT
-    signal TS
+    # CE pin = charge enable, active low, charge enabled when CHG_CONFIG=1 and CE=LOW
+    signal CE
+    CE ~ ic.CE; R24.p1 ~ CE; R24.p2 ~ agnd
+    # STAT pin = open drain charge status output, LOW = charging, HIGH = charge complete/disabled, fault = 1hz blink
+    signal STAT
+    ic.STAT ~ STAT; STAT ~ R25.p1; R25.p2 ~ pullup
     # R2 and R3 create a voltage divider. TS goes to bat_conn p3/p4 (smaller side terminals) to connect NTC
     # USE 103AT NTC reading 4.91kohm at 45C and 27.28kohm at 0C
     # Consult BQ25895 Datasheet in Refs (page 23/Equation 2)
+    signal TS
     ic.TS ~ TS; ic.REGN ~ R2.p1; R2.p2 ~ TS; TS ~ R3.p1; R3.p2 ~ agnd; TS ~ bat_conn.p3; agnd ~ bat_conn.p4
+
     # ATTINY1617
     C101.power ~ Vsys; uc.VDD ~ Vsys.vcc
+    signal UPDI
     uc.PA0_slash_RESET_hash_slash_UPDI ~ UPDI
     uc.PB1 ~ i2c.sda; uc.PB0 ~ i2c.scl
 
