@@ -8,7 +8,6 @@ from "IHLP2020BZER1R0M11.ato" import IHLP2020BZER1R0M11
 from "qwiic-connectors/elec/src/qwiic-connectors.ato" import QwiicConnector
 from "XT30_lparen_2_plus_2_rparen_PW_minus_M_period_G_period_B.ato" import XT30_lparen_2_plus_2_rparen_PW_minus_M_period_G_period_B
 from "TYPE_minus_C_minus_31_minus_M_minus_12.ato" import USBC
-from "TS3USB221ARSER.ato" import USB_SW
 
 module FemtofoxMppt:
     # Power
@@ -27,11 +26,9 @@ module FemtofoxMppt:
     # Components
     ic = new BQ25895RTWR
     uc = new ATTINY1617_minus_MFR_C2053207
-    usb_sw = new USB_SW
     i2c = new I2C
     i2c_conn = new QwiicConnector
     bat_conn = new XT30_lparen_2_plus_2_rparen_PW_minus_M_period_G_period_B
-    usb_in = new USBC
     usb_out = new USBC
     C101 = new Capacitor; C101.value = 0.1uF +/- 10%; C101.package = "0201"
     C1 = new Capacitor; C1.value = 1uF +/- 10%; C1.package = "0402"
@@ -53,8 +50,6 @@ module FemtofoxMppt:
     R13 = new Resistor; R13.value = 0ohm; R13.package = "0201"
     R14 = new Resistor; R14.value = 10kohm +/- 20%; R14.package = "0201"
     R15 = new Resistor; R15.value = 10kohm +/- 20%; R15.package = "0201"
-    R18 = new Resistor; R18.value = 768ohm +/- 10%; R18.package = "0201"
-    R20 = new Resistor; R20.value = 10kohm +/- 20%; R20.package = "0201"
     R24 = new Resistor; R24.value = 10kohm +/- 20%; R24.package = "0201"
     R25 = new Resistor; R25.value = 10kohm +/- 20%; R25.package = "0201"
     D2 = new SS1P3L_minus_M3_slash_84A # Schottky Diode
@@ -65,7 +60,7 @@ module FemtofoxMppt:
     # I2C/USB
     i2c_conn.i2c ~ i2c
     ic.SCL ~ i2c.scl; ic.SDA ~ i2c.sda; i2c.sda ~ R15.p1; R15.p2 ~ pullup; i2c.scl ~ R14.p1; R14.p2 ~ pullup; pullup ~ Vsys.vcc
-    usb_in.usb2 ~ usb_sw.usb2_in
+    usb_out.power.vcc ~ V5v.vcc
     power.gnd ~ Vpv.gnd; power.gnd ~ Vbat.gnd; power.gnd ~ Vsys.gnd; power.gnd ~ V5v.gnd
     # BQ25895
     ic.PMID ~ V5v.vcc; C2.power ~ V5v; C10.power ~ V5v; C11.power ~ V5v; C12.power ~ V5v; C13.power ~ V5v
@@ -94,6 +89,9 @@ module FemtofoxMppt:
     # Consult BQ25895 Datasheet in Refs (page 23/Equation 2)
     signal TS
     ic.TS ~ TS; ic.REGN ~ R2.p1; R2.p2 ~ TS; TS ~ R3.p1; R3.p2 ~ agnd; TS ~ bat_conn.p3; agnd ~ bat_conn.p4
+    signal ILIM
+    # figure out how to assert the current limit
+    ILIM ~ ic.ILIM; ILIM ~ R1.p1; R1.p2 ~ agnd
 
     # ATTINY1617
     C101.power ~ Vsys; uc.VDD ~ Vsys.vcc
