@@ -2,6 +2,10 @@ ato-version: ^0.2.0
 builds:
   default:
     entry: elec/src/femtofox-mppt.ato:FemtofoxMppt
+  luckfox-mini-hat:
+    entry: elec/src/luckfox-mini-hat.ato:LuckfoxMiniHat
+  bq25895:
+    entry: elec/src/bq25895.ato:Bq25895
 dependencies:
 - name: generics
   version_spec: '@2b1dae37e5d4978345d7fa372efb5f512e4cd187'

@@ -1,0 +1,18 @@
+component XDZ254_minus_1_minus_11_minus_Z_minus_2_period_5_minus_G1:
+    # component XDZ254_minus_1_minus_11_minus_Z_minus_2_period_5_minus_G1
+    footprint = "HDR-TH_11P-P2.54-V-M"
+    lcsc_id = "C18905852"
+    mpn = "C18905852"
+    # pins
+    signal p11 ~ pin 11
+    signal p10 ~ pin 10
+    signal p9 ~ pin 9
+    signal p8 ~ pin 8
+    signal p7 ~ pin 7
+    signal p6 ~ pin 6
+    signal p5 ~ pin 5
+    signal p4 ~ pin 4
+    signal p3 ~ pin 3
+    signal p2 ~ pin 2
+    signal p1 ~ pin 1
+
