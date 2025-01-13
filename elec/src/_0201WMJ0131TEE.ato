@@ -1,0 +1,9 @@
+component _0201WMJ0131TEE:
+    # component _0201WMJ0131TEE
+    footprint = "R0201"
+    lcsc_id = "C473596"
+    mpn = "C473596"
+    # pins
+    signal _2 ~ pin 2
+    signal _1 ~ pin 1
+
